@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>League of Legends Hangman</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>League of Legends Hangman</h1>
+  <p>Guess the name of the champion!</p>
+  <p>Press any letter key to make a guess.</p>
+  <div id="game">
+    <p>Remaining guesses: <span id="remaining-guesses"></span></p>
+    <p>Guessed letters: <span id="guessed-letters"></span></p>
+    <p>Word: <span id="word"></span></p>
+  </div>
+  <script src="hangman.js" type="module"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+</html>
