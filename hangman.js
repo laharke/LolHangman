@@ -1,5 +1,7 @@
-
-const getAnunciosAsync = async () => {
+import { Champion } from "./champion.js";
+let finish;
+const $btnReset = document.querySelector("#btnReset");
+const getChampionsAsync = async () => {
   try {
     const { data } = await axios("https://ddragon.leagueoflegends.com/cdn/9.13.1/data/en_US/champion.json");
     return data;
@@ -7,7 +9,6 @@ const getAnunciosAsync = async () => {
     console.error(error.message);
   }
   finally {
-
   }
 };
 /*const champions = [
@@ -25,25 +26,18 @@ const getAnunciosAsync = async () => {
     return obj[keys[ keys.length * Math.random() << 0]];
   };
 
-let datos = await getAnunciosAsync();
-datos = datos.data;
-let championName = randomProperty(datos).name;
-console.log(championName);
-
-
-
-
+  let champion;
 
   // Select a random champion from the array
   //const randomIndex = Math.floor(Math.random() * champions.length);
   //const randomChampion = champions[randomIndex].toUpperCase();
-  const randomChampion = championName.toUpperCase();
-  
+  let randomChampion;
+  let datos;
   // Set up the game state
-  let remainingGuesses = 6;
-  let guessedLetters = [];
-  let wordInProgress = Array.from(randomChampion, () => "_");
-  
+  let remainingGuesses;
+  let guessedLetters;
+  let wordInProgress;
+
   // Define a function to update the display
   function updateDisplay() {
     // Show the word in progress
@@ -60,8 +54,10 @@ console.log(championName);
   
     // Check for a win or loss
     if (!wordInProgress.includes("_")) {
+      finish = true;
       alert("You win!");
     } else if (remainingGuesses === 0) {
+      finish = true;
       alert(`You lose! The champion was ${randomChampion}.`);
     }
   }
@@ -84,19 +80,41 @@ console.log(championName);
     } else {
       remainingGuesses--;
     }
-  
+    
     updateDisplay();
   }
   
   // Set up event listeners
   document.addEventListener("keydown", event => {
     if (event.keyCode >= 65 && event.keyCode <= 90) {
-  
       const letter = event.key.toUpperCase();
       console.log(letter);
-      handleGuess(letter);
+      if(!finish)
+        handleGuess(letter);
     }
   });
   
+  $btnReset.addEventListener("click",()=>{
+    initVariables();
+    updateDisplay();
+  })
   // Initialize the display
+  await initVariables();
   updateDisplay();
+
+async function  initVariables(){
+    finish = false;
+    datos = await getChampionsAsync();
+    datos = datos.data;
+    console.log(datos);
+    //Obtengo todos los key y value del champion.
+    let championObj = randomProperty(datos);
+    //Creo el champion seleccionado las propiedades que ya definimos en la clase.
+    champion = new Champion(championObj.id, championObj.title,championObj.partype,championObj.tags,championObj.blurb);
+    randomChampion = champion.name.toUpperCase();
+  
+  // Set up the game state
+    remainingGuesses = 6;
+    guessedLetters = [];
+    wordInProgress = Array.from(randomChampion, () => "_");
+  }
