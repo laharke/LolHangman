@@ -36,3 +36,25 @@
       #guessed-letters {
         font-weight: bold;
       }
+
+      .center {
+        display: flex;
+        justify-content: center;
+        
+      }
+
+      .center2 {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .center3 {
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      align-content: stretch;
+      align-items: center;
+    }

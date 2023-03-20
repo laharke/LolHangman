@@ -8,14 +8,32 @@
 </head>
 <body>
   <h1>League of Legends Hangman</h1>
-  <p>Guess the name of the champion!</p>
-  <p>Press any letter key to make a guess.</p>
+  <div class="center2 ">
+    <div>
+        Guess the name of the champion!
+    </div>
+      <div>
+        Press any letter key to make a guess.
+      </div>
+  </div>
   <div id="game">
     <p>Remaining guesses: <span id="remaining-guesses"></span></p>
     <p>Guessed letters: <span id="guessed-letters"></span></p>
     <p>Word: <span id="word"></span></p>
   </div>
+<div class="center">
   <button id="btnReset">Reset</button>
+</div>
+
+<div class="center3">
+    <div id="gameFinishedIMG">
+
+    </div>
+    <div id="gameFinishedTEXT">
+
+    </div>
+</div>
+
   <script src="hangman.js" type="module"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
