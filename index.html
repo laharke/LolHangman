@@ -8,6 +8,7 @@
 </head>
 <body>
   <h1>League of Legends Hangman</h1>
+  <div class="score" id="score">Score: 0</div>
   <div class="center2 ">
     <div>
         Guess the name of the champion!
@@ -21,7 +22,7 @@
     <p>Guessed letters: <span id="guessed-letters"></span></p>
     <p>Word: <span id="word"></span></p>
   </div>
-<div class="center">
+<div class="center" id="resetNextDiv">
   <button id="btnReset">Reset</button>
 </div>
 
@@ -35,6 +36,7 @@
 </div>
 
   <script src="hangman.js" type="module"></script>
+  <script src="test.js"> </script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>

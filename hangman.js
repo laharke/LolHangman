@@ -1,18 +1,27 @@
 import { Champion } from "./champion.js";
 
 const $finishedDiv = document.querySelector('#gameFinished');
+//el finsiediv no se usa, lo cmaibe por dos div difrentes ne el html para poder centrar
 const $finishedIMG = document.querySelector('#gameFinishedIMG');
 const $finishedPAR = document.querySelector('#gameFinishedTEXT');
 let finish;
 const $btnReset = document.querySelector("#btnReset");
+//inicio el score chally, la joda es reinciarlo, si se pierde o se reinicia el juego
+//y sumarlo si ganas esa ronda.
+let score = 0;
+
+
 const getChampionsAsync = async () => {
   try {
     const { data } = await axios("https://ddragon.leagueoflegends.com/cdn/9.13.1/data/en_US/champion.json");
     return data;
   } catch (error) {
-    console.error(error.message);
+    //console.error(error.message);
   }
 };
+
+
+
 
  var randomProperty = function (obj) {
     var keys = Object.keys(obj);
@@ -48,6 +57,8 @@ const getChampionsAsync = async () => {
     const guessedLettersElement = document.getElementById("guessed-letters");
     guessedLettersElement.textContent = guessedLetters.join(", ");
   
+  
+
     // Check for a win or loss
     if (!wordInProgress.includes("_")) {
       win();
@@ -61,6 +72,12 @@ const getChampionsAsync = async () => {
   //probalmetne se puedan combinar las funcione slseo y win porqeu son iguales mtemos un IF pero bueno VEMOS XDDD 
   function win(){
     finish = true;
+    score = score + 1;
+  //update el score
+  const scoreElement = document.getElementById("score");
+  scoreElement.textContent = "Score: " + score;  
+
+
     alert("You win!");
     //hardcoedaa la version dsp por ahi hay que cambiarlo 
     let imageUrl = `http://ddragon.leagueoflegends.com/cdn/11.7.1/img/champion/${champion.name}.png`;
@@ -70,12 +87,25 @@ const getChampionsAsync = async () => {
     championMensaje.appendChild(text);
     championImage.src = imageUrl;
 
+//apendeo en dos lguar distintos apr apoder hacer center
     $finishedIMG.appendChild(championImage);
     $finishedPAR.appendChild(championMensaje);
+// quiero appendar al lado del boton RESET un boton que sea the NEXT GUESS osea lo tocas y te manteine el score y seguis adivaindo uan vez temrianste de ver la fotito del champ
+    const resestDiv = document.getElementById("resetNextDiv");
+    let btn = document.createElement("button");
+    btn.innerHTML = "Next Guess";
+    btn.onclick = function() {
+      initVariables();
+      updateDisplay();
+      btn.remove();
+    }
+    resestDiv.appendChild(btn);
+
   }
 
   function lose(){
     finish = true;
+    score = 0;
     alert(`You lose! The champion was ${randomChampion}.`);
     //hardcoedaa la version dsp por ahi hay que cambiarlo 
     let imageUrl = `http://ddragon.leagueoflegends.com/cdn/11.7.1/img/champion/${champion.name}.png`;
@@ -84,7 +114,7 @@ const getChampionsAsync = async () => {
     let text = document.createTextNode(champion.blurb);
     championMensaje.appendChild(text);
     championImage.src = imageUrl;
-
+//apendeo en dos lguar distintos apr apoder hacer center
     $finishedIMG.appendChild(championImage);
     $finishedPAR.appendChild(championMensaje);
   }
@@ -135,10 +165,11 @@ function  initVariables(){
     // en datos.data estan los champions en forma de objeto 
     //Obtengo todos los key y value del champion.
     let championObj = randomProperty(datos);
-    console.log(datos);
     //Creo el champion seleccionado las propiedades que ya definimos en la clase.
     champion = new Champion(championObj.id, championObj.title,championObj.partype,championObj.tags,championObj.blurb);
     randomChampion = champion.name.toUpperCase();
+    console.log(randomChampion);
+    // por ahi podriamos meter esto en un div solo pero nose centrar bien 
     $finishedIMG.innerHTML = ' ';
     $finishedPAR.innerHTML = ' ';
     
