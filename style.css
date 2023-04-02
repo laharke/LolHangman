@@ -1,4 +1,12 @@
 
+body {
+  background-image: url("desktop-1920x1080.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 90vh;
+}
+
+
     body {
         font-family: Arial, sans-serif;
         background-color: #f2f2f2;
