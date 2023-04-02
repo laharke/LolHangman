@@ -9,7 +9,10 @@ const $btnReset = document.querySelector("#btnReset");
 //inicio el score chally, la joda es reinciarlo, si se pierde o se reinicia el juego
 //y sumarlo si ganas esa ronda.
 let score = 0;
+//variable local para guardar el highest score a medida que se vaya rompiendo
+localStorage.setItem("higest-score", 0);
 
+console.log(localStorage.getItem("higest-score"));
 
 const getChampionsAsync = async () => {
   try {
@@ -57,7 +60,12 @@ const getChampionsAsync = async () => {
     const guessedLettersElement = document.getElementById("guessed-letters");
     guessedLettersElement.textContent = guessedLetters.join(", ");
   
-  
+    let scoreElement = document.getElementById("score");
+    scoreElement.textContent = "Score: " + score;  
+
+
+    //esconder el next guess button.
+
 
     // Check for a win or loss
     if (!wordInProgress.includes("_")) {
@@ -69,13 +77,16 @@ const getChampionsAsync = async () => {
       lose(); 
     }
   }
-  //probalmetne se puedan combinar las funcione slseo y win porqeu son iguales mtemos un IF pero bueno VEMOS XDDD 
+  //probalmetne se puedan combinar las funciones lose y win porqeu son iguales mtemos un IF pero bueno VEMOS XDDD 
   function win(){
     finish = true;
     score = score + 1;
-  //update el score
-  const scoreElement = document.getElementById("score");
-  scoreElement.textContent = "Score: " + score;  
+    //update el score
+    //lo puse aca y no en el update display asi se acutaliza el score apenas divinesn
+    //aunque tambien lo pongo neel diplsay PARA QUE se vea cuando resetamos.
+    let scoreElement = document.getElementById("score");
+    //cometno este const porque ya lo llamo arriba por preimra vez cas iseguro.
+    scoreElement.textContent = "Score: " + score;  
 
 
     alert("You win!");
@@ -94,6 +105,7 @@ const getChampionsAsync = async () => {
     const resestDiv = document.getElementById("resetNextDiv");
     let btn = document.createElement("button");
     btn.innerHTML = "Next Guess";
+    btn.id = "nextGuessButton";
     btn.onclick = function() {
       initVariables();
       updateDisplay();
@@ -105,6 +117,14 @@ const getChampionsAsync = async () => {
 
   function lose(){
     finish = true;
+    
+    let higestScore = localStorage.getItem("higest-score");
+    if (score > higestScore){
+      localStorage.setItem("higest-score", score)
+      let hsDOM = document.getElementById("higest-score");
+      hsDOM.innerHTML = "Highest Score: " + localStorage.getItem("higest-score");
+    }
+
     score = 0;
     alert(`You lose! The champion was ${randomChampion}.`);
     //hardcoedaa la version dsp por ahi hay que cambiarlo 
@@ -153,8 +173,26 @@ const getChampionsAsync = async () => {
   });
   
   $btnReset.addEventListener("click",()=>{
+
+     //cuando tocas RESET  tmb termino un game, asiqeu hay que updatear el higest score, tmb cuando perdes.
+    
+     let higestScore = localStorage.getItem("higest-score");
+     if (score > higestScore){
+       localStorage.setItem("higest-score", score)
+       let hsDOM = document.getElementById("higest-score");
+       hsDOM.innerHTML = "Highest Score: " + localStorage.getItem("higest-score");
+     }
+
+    //pongo el score 0 aca porque franky hizo el init mal.
+    score = 0;
+
     initVariables();
     updateDisplay();
+    //si ganaste una el boton de next guess va a estar ahi, si dsp tocas RESET hay que esconderlo
+
+    if (document.getElementById("nextGuessButton")){
+      document.getElementById("nextGuessButton").remove();
+    }
   })
   // Initialize the display
   initVariables();
