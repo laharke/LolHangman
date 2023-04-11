@@ -216,3 +216,6 @@ function  initVariables(){
     guessedLetters = [];
     wordInProgress = Array.from(randomChampion, () => "_");
   }
+
+  const myInput = document.getElementById("myInput");
+	myInput.focus();

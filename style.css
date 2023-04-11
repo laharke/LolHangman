@@ -91,3 +91,23 @@ body {
 			font-weight: bold;
 			border-radius: 0 5px 0 0;
 		}
+input[type="text"] {
+  font-size: 24px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.mobile-input {
+	display: none;
+}
+
+@media screen and (max-width: 768px) {
+	.mobile-input {
+		display: block;
+	}
+}
