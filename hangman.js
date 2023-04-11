@@ -218,4 +218,8 @@ function  initVariables(){
   }
 
   const myInput = document.getElementById("myInput");
-	myInput.focus();
+
+  setTimeout(function() {
+    myInput.focus();
+  }, 1000);
+  
